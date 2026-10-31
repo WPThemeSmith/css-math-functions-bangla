@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="bn">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>CSS Math Functions — বাংলা গাইড ও লাইভ প্র্যাকটিস</title>
+  <style>
+    :root { color-scheme:light; --ink:#172238; --muted:#5e6c82; --line:#dce4ef; --paper:#f4f7fb; --blue:#2859d8; --pale:#edf2ff; --green:#13785a; }
+    * { box-sizing:border-box; }
+    body { margin:0; color:var(--ink); background:var(--paper); font:16px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif; }
+    .wrap { width:min(100% - 28px,1120px); margin:0 auto; padding:24px 0 56px; }
+    header { padding:clamp(24px,5vw,48px); color:#fff; border-radius:24px; background:linear-gradient(125deg,#13265a,#2859d8 64%,#5487ed); box-shadow:0 16px 38px #193b7b20; }
+    .eyebrow { margin:0 0 8px; color:#d2deff; font-size:.82rem; font-weight:750; letter-spacing:.08em; }
+    h1 { margin:0; font-size:clamp(2rem,5vw,3.1rem); line-height:1.15; }
+    header p:last-child { max-width:780px; margin:15px 0 0; color:#eef3ff; }
+    .intro,.group { margin-top:18px; padding:clamp(18px,3.5vw,28px); border:1px solid var(--line); border-radius:19px; background:#fff; box-shadow:0 6px 20px #152b6608; }
+    h2 { margin:0 0 8px; font-size:1.38rem; line-height:1.3; }
+    h3 { margin:0; font-size:1.12rem; }
+    p { margin:7px 0; }
+    .muted { color:var(--muted); }
+    code { padding:2px 6px; border-radius:6px; color:#173b9b; background:#edf2ff; font-family:ui-monospace,SFMono-Regular,Consolas,monospace; font-size:.94em; overflow-wrap:anywhere; }
+    .notice { margin-top:14px; padding:12px 15px; border-left:4px solid #efb247; border-radius:0 10px 10px 0; background:#fff8e9; }
+    .group-head { margin-bottom:15px; }
+    .group-head p { color:var(--muted); }
+    .tab-list { display:flex; gap:8px; overflow-x:auto; padding:4px 2px 11px; scrollbar-color:#9eb1d2 #edf1f7; }
+    .tab-button { flex:0 0 auto; padding:10px 15px; border:1px solid #d6e0ee; border-radius:11px; color:#263956; background:#f7f9fd; font:inherit; font-weight:720; white-space:nowrap; cursor:pointer; }
+    .tab-button[aria-selected="true"] { border-color:var(--blue); color:#fff; background:var(--blue); box-shadow:0 4px 12px #2859d833; }
+    .tab-button:focus-visible { outline:3px solid #9bb7ff; outline-offset:2px; }
+    .category-panel { margin-top:8px; }
+    .category-description { margin:4px 0 8px; color:var(--muted); }
+    .function-tabs { margin-top:9px; border-bottom:1px solid var(--line); }
+    .function-panel { margin-top:14px; }
+    .tab-panel:focus-visible { outline:3px solid #9bb7ff; outline-offset:3px; border-radius:12px; }
+    .function-card { min-width:0; padding:clamp(18px,4vw,34px); border:1px solid var(--line); border-radius:17px; background:linear-gradient(145deg,#fff,#fbfcff); box-shadow:0 8px 28px #152b6610; }
+    .function-heading { display:flex; align-items:center; gap:9px; margin-bottom:5px; }
+    .function-heading code { color:#183987; font-size:1rem; font-weight:750; }
+    .description { min-height:46px; margin:0 0 12px; color:var(--muted); font-size:.94rem; }
+    label { display:block; margin:10px 0 5px; font-size:.91rem; font-weight:720; }
+    .expression { width:100%; min-width:0; padding:10px 11px; border:1px solid #b9c7da; border-radius:9px; color:var(--ink); background:#fff; font: .94rem ui-monospace,SFMono-Regular,Consolas,monospace; }
+    .expression:focus,.viewport:focus { outline:3px solid #9bb7ff; outline-offset:2px; }
+    .viewport-label { display:flex; justify-content:space-between; align-items:center; gap:8px; margin-top:12px; }
+    .viewport-label label { margin:0; }
+    output { color:#24499d; font-size:.9rem; font-weight:750; font-variant-numeric:tabular-nums; white-space:nowrap; }
+    .viewport { display:block; width:100%; margin:6px 0 0; accent-color:var(--blue); }
+    .device-hint { margin:1px 0 7px; color:var(--muted); font-size:.77rem; }
+    .frame-wrap { width:100%; overflow-x:auto; border:1px solid #d7e1f0; border-radius:11px; background:#f6f8fc; scrollbar-color:#9eb1d2 #edf1f7; }
+    iframe { display:block; width:390px; height:132px; max-width:none; border:0; background:#f6f8fc; }
+    .device-help { margin:8px 0 0; padding:11px 13px; border-radius:11px; background:#f5f7fb; color:#4c5b72; font-size:.9rem; }
+    footer { margin:20px 4px 0; color:var(--muted); font-size:.88rem; }
+    @media(max-width:560px) { .wrap { width:min(100% - 18px,1120px); padding-top:10px; } header,.intro,.group { border-radius:16px; } .function-card { padding:14px; } .description { min-height:0; } }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <header>
+      <p class="eyebrow">CSS MATH FUNCTIONS · OFFLINE PRACTICE LAB</p>
+      <h1>CSS math functions<br>দেখে শিখি, করে শিখি</h1>
+      <p>calc(), min(), max(), clamp() থেকে শুরু করে trigonometric ও exponential function—প্রতিটির expression বদলে live preview দেখুন। প্রতিটি preview-র জন্য slider দিয়ে mobile, tablet বা desktop viewport বেছে নিন।</p>
+    </header>
+
+    <section class="intro" aria-labelledby="intro-title">
+      <h2 id="intro-title">ব্যবহার করার নিয়ম</h2>
+      <p>প্রথমে category tab, তারপর function tab বেছে নিন। একবারে একটি function-এর editor, viewport slider ও বড় live preview দেখা যাবে। Preview-টি embedded frame-এ চলে, তাই সেখানে <code>vw</code> নির্বাচিত viewport width অনুযায়ী হিসাব হয়। বড় width দেখতে প্রয়োজন হলে preview-র নিচে আড়াআড়ি scroll করুন।</p>
+      <div class="notice"><strong>Browser support:</strong> CSS math function-গুলোর সমর্থন browser ও version অনুযায়ী আলাদা হতে পারে। কোনো function আপনার browser-এ না চললে সেই preview-তে unsupported/invalid status দেখাবে; অন্য function-গুলো পরীক্ষা করা যাবে। এই পেজে কোনো external library বা network resource লাগে না।</div>
+      <p class="muted">মনে রাখুন: <code>+</code> ও <code>-</code>-এর আগে-পরে space দিন। উদাহরণ: <code>calc(100% - 24px)</code>। expression বদলানোর পর browser-এর computed style-ও preview-তে দেখা যায়।</p>
+    </section>
+
+    <section class="group" aria-labelledby="practice-title">
+      <div class="group-head"><h2 id="practice-title">CSS math functions-এর লাইভ প্র্যাকটিস</h2><p>নিচের tab-গুলো থেকে পছন্দের function বেছে নিন। একবারে একটি বড় preview দেখানো হবে।</p></div>
+      <div class="tab-list category-tabs" id="category-tabs" role="tablist" aria-label="CSS math function category" aria-orientation="horizontal"></div>
+      <div class="tab-panel category-panel" id="category-panel" role="tabpanel" tabindex="0" aria-labelledby="category-tab-basic">
+        <p class="category-description" id="category-description"></p>
+        <div class="tab-list function-tabs" id="function-tabs" role="tablist" aria-label="নির্বাচিত category-র functions" aria-orientation="horizontal"></div>
+        <div class="tab-panel function-panel" id="function-panel" role="tabpanel" tabindex="0" aria-labelledby="function-tab-0">
+          <article class="function-card" aria-labelledby="function-heading">
+            <div class="function-heading" id="function-heading"><code id="function-name">calc()</code><span class="muted" id="function-property">→ width</span></div>
+            <p class="description" id="function-note"></p>
+            <label for="expression">CSS value (edit করে পরীক্ষা করুন)</label>
+            <input id="expression" class="expression" type="text" spellcheck="false" autocomplete="off">
+            <div class="viewport-label"><label for="viewport-slider">Preview viewport width</label><output id="viewport-value" for="viewport-slider">390px · Mobile</output></div>
+            <input id="viewport-slider" class="viewport" type="range" min="320" max="1440" step="1" value="390" list="viewport-stops">
+            <p class="device-hint">Mobile 320–599 · Tablet 600–1023 · Desktop 1024–1440px</p>
+            <div class="frame-wrap"><iframe id="preview-frame" title="CSS math function live preview" width="390" height="132" sandbox="allow-scripts"></iframe></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <p class="device-help"><strong>Slider-এর device range:</strong> Mobile 320–599px · Tablet 600–1023px · Desktop 1024–1440px। Slider প্রতিটি function preview-র viewport আলাদাভাবে বদলায়।</p>
+    <footer>একটি standalone HTML ফাইল—local browser-এ খুললেই চলবে। কোনো CDN, external font বা internet connection ব্যবহার করে না।</footer>
+  </main>
+
+  <script>
+    (() => {
+      const functions = [
+        { group:'basic', name:'calc()', property:'width', value:'calc(100vw - 48px)', note:'এক বা একাধিক unit-এর মান যোগ, বিয়োগ, গুণ বা ভাগ করে। উদাহরণে viewport width থেকে 48px বাদ।' },
+        { group:'basic', name:'min()', property:'width', value:'min(90vw, 480px)', note:'দেওয়া মানগুলোর মধ্যে ছোটটি বেছে নেয়। এখানে width 90vw বা 480px—যেটি ছোট।' },
+        { group:'basic', name:'max()', property:'width', value:'max(60vw, 220px)', note:'দেওয়া মানগুলোর মধ্যে বড়টি বেছে নেয়। ফলে ছোট viewport-এও ন্যূনতম width বজায় থাকে।' },
+        { group:'basic', name:'clamp()', property:'font-size', value:'clamp(16px, 4vw, 40px)', note:'একটি মানকে minimum ও maximum-এর মধ্যে রাখে। এখানে font-size কখনো 16px-এর কম বা 40px-এর বেশি হবে না।' },
+
+        { group:'stepped', name:'round()', property:'width', value:'round(up, 70vw, 40px)', note:'নির্বাচিত strategy অনুযায়ী মানকে step-এর গুণিতকে round করে। Strategy: up, down, to-zero বা nearest।' },
+        { group:'stepped', name:'mod()', property:'width', value:'mod(70vw, 100px)', note:'ভাগশেষ দেয়; ফলের sign divisor-এর মতো হয়। এখানে 70vw-কে 100px দিয়ে ভাগের modulo।' },
+        { group:'stepped', name:'rem()', property:'width', value:'rem(70vw, 100px)', note:'ভাগশেষ দেয়; ফলের sign dividend-এর মতো হয়। rem() ও mod() ঋণাত্মক মানে আলাদা ফল দিতে পারে।' },
+
+        { group:'sign', name:'abs()', property:'width', value:'abs(100vw - 180px)', note:'মানের absolute value বা পরম মান দেয়—ফল সবসময় শূন্য বা তার বেশি।' },
+        { group:'sign', name:'sign()', property:'opacity', value:'calc((1 + sign(100vw - 600px)) / 2)', note:'ঋণাত্মক হলে -1, শূন্য হলে 0, ধনাত্মক হলে 1 দেয়। এখানে viewport 600px-এর নিচে/সমান/উপরে গেলে opacity বদলায়।' },
+
+        { group:'trig', name:'sin()', property:'transform', value:'rotate(calc(45deg * sin(45deg)))', note:'কোণের sine বের করে; এখানে সেই অনুপাত দিয়ে rotation angle তৈরি হয়।' },
+        { group:'trig', name:'cos()', property:'transform', value:'rotate(calc(45deg * cos(60deg)))', note:'কোণের cosine বের করে; rotation preview-তে angle-এর প্রভাব দেখুন।' },
+        { group:'trig', name:'tan()', property:'transform', value:'rotate(calc(20deg * tan(30deg)))', note:'কোণের tangent বের করে। 90deg-এর কাছাকাছি মানে ফল খুব বড় হতে পারে।' },
+        { group:'trig', name:'asin()', property:'transform', value:'rotate(asin(0.5))', note:'একটি ratio থেকে arcsine angle বের করে; input সাধারণত -1 থেকে 1-এর মধ্যে।' },
+        { group:'trig', name:'acos()', property:'transform', value:'rotate(acos(0.5))', note:'একটি ratio থেকে arccosine angle বের করে; input সাধারণত -1 থেকে 1-এর মধ্যে।' },
+        { group:'trig', name:'atan()', property:'transform', value:'rotate(atan(1))', note:'একটি ratio থেকে arctangent angle বের করে।' },
+        { group:'trig', name:'atan2()', property:'transform', value:'rotate(atan2(1, 2))', note:'y ও x—দুইটি মান থেকে quadrant-aware angle বের করে। CSS-এ ক্রম হলো atan2(y, x)।' },
+
+        { group:'exp', name:'pow()', property:'transform', value:'scale(calc(pow(2, 1) / 2))', note:'একটি সংখ্যাকে নির্দিষ্ট power-এ তোলে; pow(base, exponent)।' },
+        { group:'exp', name:'sqrt()', property:'transform', value:'scale(calc(sqrt(4) / 2))', note:'শূন্য বা তার বেশি মানের square root বের করে।' },
+        { group:'exp', name:'hypot()', property:'transform', value:'scale(calc(hypot(3, 4) / 5))', note:'Hypotenuse/Euclidean length হিসাব করে; hypot(3, 4) = 5।' },
+        { group:'exp', name:'log()', property:'transform', value:'scale(log(2.718281828))', note:'Natural logarithm (base e) হিসাব করে। log(e) প্রায় 1।' },
+        { group:'exp', name:'exp()', property:'transform', value:'scale(calc(exp(1) / 2.718281828))', note:'e-কে নির্দিষ্ট power-এ তোলে। exp(1) প্রায় 2.71828।' }
+      ];
+
+      const descriptions = {
+        width:'প্রস্থের লাইভ নমুনা',
+        'font-size':'লেখার আকারের লাইভ নমুনা',
+        opacity:'opacity-র লাইভ নমুনা',
+        transform:'transform-এর লাইভ নমুনা'
+      };
+
+      function makeFrameDocument(item) {
+        const property = JSON.stringify(item.property);
+        const initial = JSON.stringify(item.value);
+        return `<!doctype html><html lang="bn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>
+          *{box-sizing:border-box}html,body{width:100%;min-height:100%;margin:0}body{padding:10px 8px;background:#f6f8fc;color:#172238;font:13px/1.35 system-ui,-apple-system,"Segoe UI",sans-serif;overflow:hidden}.track{width:100%;height:84px;display:flex;align-items:center;justify-content:center;overflow:hidden;border-radius:9px;background:repeating-linear-gradient(135deg,#f0f3f9,#f0f3f9 8px,#f7f9fc 8px,#f7f9fc 16px)}.sample{width:70%;height:52px;display:flex;align-items:center;justify-content:center;margin:auto;padding:6px;border:2px solid #2859d8;border-radius:11px;background:linear-gradient(120deg,#dbe7ff,#b9d0ff);color:#17336e;text-align:center;font:600 14px/1.25 system-ui,-apple-system,"Segoe UI",sans-serif;overflow:hidden;overflow-wrap:anywhere;transform-origin:center center}.sample-text{max-width:100%}.status{min-height:20px;margin-top:6px;color:#4e5e75;font-size:11px;white-space:normal;overflow-wrap:anywhere}.status.good{color:#13785a}.status.bad{color:#a33328}</style></head><body>
+          <div class="track"><div class="sample" id="sample"><span class="sample-text">${item.name} · ${descriptions[item.property]}</span></div></div>
+          <div class="status" id="status" role="status" aria-live="polite">Preview প্রস্তুত হচ্ছে…</div>
+          <script>
+            const property=${property};
+            const sample=document.getElementById('sample');
+            const status=document.getElementById('status');
+            let lastValue=${initial};
+            function apply(value){
+              lastValue=value;
+              if(typeof value!=='string'||!value.trim()||!CSS.supports(property,value)){
+                status.className='status bad';
+                status.textContent='এই browser-এ এই CSS value/function সমর্থিত নয়, অথবা expression-টি invalid।';
+                return;
+              }
+              sample.style.setProperty(property,value);
+              const computed=getComputedStyle(sample).getPropertyValue(property).trim();
+              status.className='status good';
+              status.textContent='চলছে · computed '+property+': '+computed;
+            }
+            window.addEventListener('resize',()=>apply(lastValue));
+            window.addEventListener('message',event=>{if(event.data&&event.data.kind==='css-math-value')apply(event.data.value)});
+            apply(${initial});
+          <\/script></body></html>`;
+      }
+
+      const categoryInfo={
+        basic:{label:'সাধারণ ও responsive',description:'দৈর্ঘ্য গণনা, সীমা নির্ধারণ এবং responsive typography-র জন্য।'},
+        stepped:{label:'Stepped functions',description:'মানকে নির্দিষ্ট ধাপে round করা বা ভাগশেষ বের করার function।'},
+        sign:{label:'Sign functions',description:'সংখ্যার absolute value বা sign দিয়ে CSS property নিয়ন্ত্রণ করুন।'},
+        trig:{label:'Trigonometry',description:'Angle ও ratio থেকে rotation বা অন্য CSS মান হিসাব করুন।'},
+        exp:{label:'Exponential',description:'Power, square root, hypotenuse, logarithm ও exponential function।'}
+      };
+      const categoryTabs=document.getElementById('category-tabs');
+      const categoryPanel=document.getElementById('category-panel');
+      const categoryDescription=document.getElementById('category-description');
+      const functionTabs=document.getElementById('function-tabs');
+      const functionPanel=document.getElementById('function-panel');
+      const functionName=document.getElementById('function-name');
+      const functionProperty=document.getElementById('function-property');
+      const functionNote=document.getElementById('function-note');
+      const expression=document.getElementById('expression');
+      const slider=document.getElementById('viewport-slider');
+      const viewportValue=document.getElementById('viewport-value');
+      const frame=document.getElementById('preview-frame');
+      let activeCategory='basic';
+      let activeIndex=0;
+
+      function sendValue(){
+        if(frame.contentWindow) frame.contentWindow.postMessage({kind:'css-math-value',value:expression.value.trim()},'*');
+      }
+      function updateViewport(){
+        const width=Number(slider.value);
+        frame.width=String(width);
+        frame.style.width=width+'px';
+        const device=width<600?'Mobile':width<1024?'Tablet':'Desktop';
+        viewportValue.value=width+'px · '+device;
+        requestAnimationFrame(sendValue);
+      }
+      function selectFunction(index, moveFocus=false){
+        activeIndex=index;
+        const item=functions[index];
+        const button=functionTabs.querySelector(`[data-function-index="${index}"]`);
+        functionTabs.querySelectorAll('[role="tab"]').forEach(tab=>{
+          const selected=tab===button;
+          tab.setAttribute('aria-selected',String(selected));
+          tab.tabIndex=selected?0:-1;
+        });
+        functionPanel.setAttribute('aria-labelledby',button.id);
+        functionName.textContent=item.name;
+        functionProperty.textContent='→ '+item.property;
+        functionNote.textContent=item.note;
+        expression.value=item.value;
+        frame.title=item.name+' '+item.property+' live preview';
+        updateViewport();
+        frame.srcdoc=makeFrameDocument(item);
+        if(moveFocus) button.focus();
+      }
+      function selectCategory(key, moveFocus=false){
+        activeCategory=key;
+        const tab=categoryTabs.querySelector(`[data-category="${key}"]`);
+        categoryTabs.querySelectorAll('[role="tab"]').forEach(button=>{
+          const selected=button===tab;
+          button.setAttribute('aria-selected',String(selected));
+          button.tabIndex=selected?0:-1;
+        });
+        categoryPanel.setAttribute('aria-labelledby',tab.id);
+        categoryDescription.textContent=categoryInfo[key].description;
+        functionTabs.replaceChildren();
+        const entries=functions.map((item,index)=>({item,index})).filter(entry=>entry.item.group===key);
+        entries.forEach(({item,index},position)=>{
+          const button=document.createElement('button');
+          button.type='button';
+          button.className='tab-button';
+          button.id='function-tab-'+index;
+          button.dataset.functionIndex=String(index);
+          button.setAttribute('role','tab');
+          button.setAttribute('aria-controls','function-panel');
+          button.setAttribute('aria-selected',String(position===0));
+          button.tabIndex=position===0?0:-1;
+          button.textContent=item.name;
+          button.addEventListener('click',()=>selectFunction(index));
+          button.addEventListener('keydown',event=>{
+            const tabs=[...functionTabs.querySelectorAll('[role="tab"]')];
+            const current=tabs.indexOf(button);
+            let next=current;
+            if(event.key==='ArrowRight') next=(current+1)%tabs.length;
+            else if(event.key==='ArrowLeft') next=(current-1+tabs.length)%tabs.length;
+            else if(event.key==='Home') next=0;
+            else if(event.key==='End') next=tabs.length-1;
+            else return;
+            event.preventDefault();
+            selectFunction(Number(tabs[next].dataset.functionIndex),true);
+          });
+          functionTabs.appendChild(button);
+        });
+        selectFunction(entries[0].index);
+        if(moveFocus) tab.focus();
+      }
+
+      Object.entries(categoryInfo).forEach(([key,info],index)=>{
+        const button=document.createElement('button');
+        const count=functions.filter(item=>item.group===key).length;
+        button.type='button';
+        button.className='tab-button';
+        button.id='category-tab-'+key;
+        button.dataset.category=key;
+        button.setAttribute('role','tab');
+        button.setAttribute('aria-controls','category-panel');
+        button.setAttribute('aria-selected',String(index===0));
+        button.tabIndex=index===0?0:-1;
+        button.textContent=info.label+' · '+count;
+        button.addEventListener('click',()=>selectCategory(key));
+        button.addEventListener('keydown',event=>{
+          const tabs=[...categoryTabs.querySelectorAll('[role="tab"]')];
+          const current=tabs.indexOf(button);
+          let next=current;
+          if(event.key==='ArrowRight') next=(current+1)%tabs.length;
+          else if(event.key==='ArrowLeft') next=(current-1+tabs.length)%tabs.length;
+          else if(event.key==='Home') next=0;
+          else if(event.key==='End') next=tabs.length-1;
+          else return;
+          event.preventDefault();
+          selectCategory(tabs[next].dataset.category,true);
+        });
+        categoryTabs.appendChild(button);
+      });
+
+      expression.addEventListener('input',sendValue);
+      slider.addEventListener('input',updateViewport);
+      frame.addEventListener('load',sendValue);
+      selectCategory(activeCategory);
+    })();
+  </script>
+  <datalist id="viewport-stops"><option value="375" label="Mobile"></option><option value="768" label="Tablet"></option><option value="1280" label="Desktop"></option></datalist>
+</body>
+</html>
